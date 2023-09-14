@@ -1,0 +1,73 @@
+package com.example.listview;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity
+{
+    ArrayList<String> ListData = new ArrayList<String>();
+    ArrayAdapter adapter;
+    EditText SearchBar;
+    ListView ListItem;
+    @SuppressLint("MissingInflatedId")
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        SearchBar = (EditText) findViewById(R.id.SearchBar);
+        ListItem = (ListView) findViewById(R.id.ListItem);
+        ListData.add("Thứ hai");
+        ListData.add("Thứ ba");
+        ListData.add("Thứ tư");
+        adapter = new ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, ListData);
+        ListItem.setAdapter(adapter);
+
+        ListItem.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                                        {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                                            {
+                                                Toast.makeText(getApplicationContext(), ListData.get(position), Toast.LENGTH_SHORT).show();
+                                                ListData.remove(position);
+                                                adapter.notifyDataSetChanged();
+                                            }
+                                        }
+        );
+    }
+}
+**********************************************************************
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/SearchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search"
+        />
+
+    <ListView
+        android:id="@+id/ListItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>
